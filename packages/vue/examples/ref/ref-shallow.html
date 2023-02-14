@@ -14,17 +14,13 @@
 </body>
 <script>
     const { ref, effect } = Vue
-    const obj = ref({
-        name: 'jay'
-    })
-
-    console.log(obj)
+    const obj = ref('jay')
 
     effect(() => {
-        document.querySelector('#app').innerText = obj.value.name
+        document.querySelector('#app').innerText = obj.value
     })
     setTimeout(() => {
-        obj.value.name = 123
+        obj.value = 123
     }, 2000);
 
 </script>
