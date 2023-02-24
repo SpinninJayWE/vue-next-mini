@@ -1,6 +1,7 @@
 import { track, trigger } from './effect'
 
 const get = createGetter()
+const set = createSetter()
 
 function createGetter() {
 	return function get(target: object, key: string | symbol, receiver: object) {
@@ -9,8 +10,6 @@ function createGetter() {
 		return res
 	}
 }
-
-const set = createSetter()
 
 function createSetter() {
 	return function set(

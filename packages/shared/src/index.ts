@@ -2,10 +2,10 @@
  * 判断是否为数组
  *
  */
-export const isArray = Array.isArray
+export const isArray = Array.isArray;
 
 export const isObject = (val: unknown) =>
-	val !== null && typeof val === 'object'
+  val !== null && typeof val === "object";
 
 /**
  *
@@ -14,4 +14,12 @@ export const isObject = (val: unknown) =>
  * @returns
  */
 export const hasChanged = (value: any, oldVal: any): boolean =>
-	!Object.is(value, oldVal)
+  !Object.is(value, oldVal);
+
+export const isFunction = (val: unknown): val is Function => {
+  return typeof val === "function";
+};
+
+export const extend = Object.assign;
+
+export const EMPTY_OBJ: { readonly [key: string]: any } = {};
