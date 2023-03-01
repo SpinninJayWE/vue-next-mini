@@ -1,37 +1,36 @@
 import { isArray, isObject } from '@vue/shared'
-import { VNode, createVNode, isVNode } from './vNode'
+import { createVNode, isVNode, VNode } from './vnode'
 
-// 定义一个名为h的函数，用于创建虚拟节点（VNode）
-// 参数type表示要创建的元素类型，可以是字符串、组件或者其他值
-// 参数propsOrChildren表示要设置的属性对象或者子节点
-// 参数children表示要设置的子节点，可以是数组、字符串、VNode或者其他值
 export function h(type: any, propsOrChildren?: any, children?: any): VNode {
-	// 获取参数的个数
+	// 获取用户传递的参数数量
 	const l = arguments.length
-	// 如果只有一个参数，那么直接调用createVNode函数，返回一个没有属性和子节点的VNode对象
+	// 如果用户只传递了两个参数，那么证明第二个参数可能是 props , 也可能是 children
 	if (l === 2) {
-		// 如果第二个参数是一个对象而不是数组，那么判断它是否是一个VNode对象
+		// 如果 第二个参数是对象，但不是数组。则第二个参数只有两种可能性：1. VNode 2.普通的 props
 		if (isObject(propsOrChildren) && !isArray(propsOrChildren)) {
-			// 如果是一个VNode对象，那么返回一个包含该VNode对象为唯一子节点的VNode对象
+			// 如果是 VNode，则 第二个参数代表了 children
 			if (isVNode(propsOrChildren)) {
 				return createVNode(type, null, [propsOrChildren])
 			}
-			// 否则返回一个包含第二个参数作为属性对象的VNode对象
+			// 如果不是 VNode， 则第二个参数代表了 props
 			return createVNode(type, propsOrChildren, [])
-		} else {
-			// 如果第二个参数不是一个对象或者是一个数组，那么返回一个包含第二个参数作为子节点的VNode对象
+		}
+		// 如果第二个参数不是单纯的 object，则 第二个参数代表了 props
+		else {
 			return createVNode(type, null, propsOrChildren)
 		}
-	} else {
-		// 如果有三个或更多参数，那么先判断第三个参数是否是一个VNode对象
+	}
+	// 如果用户传递了三个或以上的参数，那么证明第二个参数一定代表了 props
+	else {
+		// 如果参数在三个以上，则从第二个参数开始，把后续所有参数都作为 children
 		if (l > 3) {
-			// 如果是一个VNode对象，那么将第三个及后续所有参数放入一个数组作为子节点
 			children = Array.prototype.slice.call(arguments, 2)
-		} else if (l === 3 && isVNode(children)) {
-			// 否则如果只有三个参数并且第三个参数是一个VNode对象，那么将其放入一个数组作为子节点
+		}
+		// 如果传递的参数只有三个，则 children 是单纯的 children
+		else if (l === 3 && isVNode(children)) {
 			children = [children]
 		}
-		// 最后返回一个包含type、propsOrChildren和children三个参数对应值的VNode对象
+		// 触发 createVNode 方法，创建 VNode 实例
 		return createVNode(type, propsOrChildren, children)
 	}
 }
