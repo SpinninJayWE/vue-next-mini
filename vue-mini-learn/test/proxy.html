@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+<script>
+    const product = {
+        price: 10,
+        quantity: 2
+    }
+    // 被代理对象 product
+    // 代理对象
+    const proxyProduct = new Proxy(product, {
+        set(target, key, newVal, receiver) {
+            // console.log('setter', target, key, newVal, receiver)
+            target[key] = newVal
+            effect()
+            return true
+        },
+        get(target, key, receiver) {
+            // console.log('getter', target, key, receiver)
+            return target[key]
+        }
+    })
+
+    let total = 0
+
+    const effect = () => {
+        total = proxyProduct.price * proxyProduct.quantity
+    }
+
+    effect()
+    console.log(`总价格: ${total}`)
+</script>
+
+</html>
