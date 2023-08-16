@@ -7,29 +7,22 @@
 		<script src="../../dist/vue.js"></script>
 	</head>
 	<body>
-		<div id="app">
-			<p id="p1"></p>
-			<p id="p2"></p>
-		</div>
+		<div id="app"></div>
 	</body>
 </html>
 
 <script type="module">
-	const { reactive, effect } = Vue
+	const { ref, effect } = Vue
 
-	const target = {
+	const obj = ref({
 		name: 'jay',
-	}
-	const rp = reactive(target)
+	})
 
 	effect(() => {
-		document.getElementById('p1').innerHTML = rp.name
-	})
-	effect(() => {
-		document.getElementById('p2').innerHTML = rp.name
+		document.getElementById('app').innerHTML = obj.value.name
 	})
 
 	setTimeout(() => {
-		rp.name = 'show'
+		obj.value.name = 'show'
 	}, 2000)
 </script>

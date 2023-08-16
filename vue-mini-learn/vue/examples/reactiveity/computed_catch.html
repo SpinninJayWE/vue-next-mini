@@ -7,26 +7,27 @@
 		<script src="../../dist/vue.js"></script>
 	</head>
 	<body>
-		<div id="app">
-			<p id="p1"></p>
-			<p id="p2"></p>
-		</div>
+		<div id="app"></div>
+		<div id="app2"></div>
 	</body>
 </html>
 
-<script type="module">
-	const { reactive, effect } = Vue
+<script>
+	const { reactive, effect, computed } = Vue
 
 	const target = {
 		name: 'jay',
 	}
 	const rp = reactive(target)
 
-	effect(() => {
-		document.getElementById('p1').innerHTML = rp.name
+	const name = computed(() => {
+		console.log('计算属性执行')
+		return '我的名字是' + rp.name
 	})
+
 	effect(() => {
-		document.getElementById('p2').innerHTML = rp.name
+		document.getElementById('app').innerHTML = name.value
+		document.getElementById('app2').innerHTML = name.value
 	})
 
 	setTimeout(() => {
